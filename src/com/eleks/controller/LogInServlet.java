@@ -22,31 +22,22 @@ import java.io.PrintWriter;
 @WebServlet(name = "LogInServlet")
 public class LogInServlet extends HttpServlet {
 
-    private UserRepository userRepository  = new UserRepositoryImpl();
+    private UserRepository userRepository  = UserRepositoryImpl.getInstance();
     private UserValidator validator = new UserValidator();
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws  ServletException, IOException {
-        resp.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = resp.getWriter();
-
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws  IOException, ServletException{
         String username = req.getParameter("username");
         String password = req.getParameter("password");
-
-     if(validator.checkUser(username,password)){
-         try {
-             User user = userRepository.findUserByName(username);
-             req.setAttribute("user" , user);
-             RequestDispatcher rd = req.getRequestDispatcher("userProfile.jsp");
-             rd.forward(req,resp);
-         } catch (Exception e) {
-             e.printStackTrace();
-         }
-
+        System.out.println(username+  password);
+     if(validator.checkUser(username,password)) {
+         User user = userRepository.findUserByName(username);
+         req.setAttribute("user", user);
+         RequestDispatcher rd = req.getRequestDispatcher("userProfile.jsp");
+         rd.forward(req, resp);
+     }else{
+         req.getRequestDispatcher("faillogin.jsp").forward(req,resp);
      }
-
-
-
     }
 
     @Override

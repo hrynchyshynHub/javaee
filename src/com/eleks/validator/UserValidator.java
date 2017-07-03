@@ -11,17 +11,14 @@ import javax.inject.Qualifier;
  * Created by ivan.hrynchyshyn on 03.07.2017.
  */
 public class UserValidator {
-    private UserRepository userRepository;
+    private UserRepository userRepository = UserRepositoryImpl.getInstance();
 
     public boolean checkUser(String username, String password){
-        User user = null;
-        try {
-            user = userRepository.findUserByName(username);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        System.out.println(user);
-        if(user.getPassword().equals(password)) return true;
-        return false;
+        boolean userIsInDatabase = false;
+
+       for(User u:userRepository.findAll()){
+           if(u.getUsername().equals(username) && u.getPassword().equals(password)) userIsInDatabase = true;
+       }
+        return userIsInDatabase;
     }
 }

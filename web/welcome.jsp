@@ -34,11 +34,11 @@
     <form  action="login" method="post">
         <div class="form-group">
             <label for="usernameId">Username</label>
-            <input type="text" class="form-control" id="usernameId" placeholder="username">
+            <input type="text" class="form-control" id="usernameId" name = "username" placeholder="username">
         </div>
         <div class="form-group">
             <label for="exampleInputPassword1">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+            <input type="password" class="form-control" id="exampleInputPassword1" name = "password" placeholder="Password">
         </div>
 
 

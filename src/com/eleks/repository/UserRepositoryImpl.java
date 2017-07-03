@@ -12,10 +12,11 @@ import java.util.List;
  */
 @ApplicationScoped
 public class UserRepositoryImpl implements UserRepository {
+    private static UserRepositoryImpl userRepository;
+    private  List<User> users = new ArrayList<User>();
 
-    private static List<User> users = new ArrayList<User>();
 
-   static{
+   private UserRepositoryImpl(){
         users.add(new User("Ivan", "1111"));
         users.add(new User("Pavlo", "1111"));
         users.add(new User("Maks", "1111"));
@@ -24,14 +25,20 @@ public class UserRepositoryImpl implements UserRepository {
         users.add(new User("default", "1111"));
     }
 
+    public static UserRepositoryImpl getInstance(){
+       if(userRepository == null) userRepository = new UserRepositoryImpl();
+       return userRepository;
+    }
+
     @Override
-    public User findUserByName(String name) throws  Exception{
+    public User findUserByName(String name) {
         User u = null;
         for (User user : users){
             if(user.getUsername().equals(name))
                 u = user;
         }
-        if(u == null) throw new Exception("User not found");
+        if(u == null) System.out.println("User not found");
+        System.out.println(u + " user ");
         return u;
 
     }
@@ -43,7 +50,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void deleteUserByName(String usermame) throws Exception {
+    public void deleteUserByName(String usermame){
         Iterator<User> iter = users.iterator();
         while (iter.hasNext()){
             User u = iter.next();

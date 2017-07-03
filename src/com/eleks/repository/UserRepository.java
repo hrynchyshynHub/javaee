@@ -8,8 +8,8 @@ import java.util.List;
  * Created by ivan.hrynchyshyn on 03.07.2017.
  */
 public interface UserRepository {
-    User findUserByName(String username) throws Exception;
+    User findUserByName(String username);
     void addUser(User u);
-    void deleteUserByName(String usermame) throws Exception;
+    void deleteUserByName(String usermame);
     List<User> findAll();
 }
