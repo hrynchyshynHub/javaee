@@ -1,0 +1,5 @@
+<root>
+    <item name='javax.inject.Qualifier'>
+        <annotation name='java.lang.Deprecated'/>
+    </item>
+</root>
