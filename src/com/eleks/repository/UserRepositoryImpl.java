@@ -1,9 +1,12 @@
 package com.eleks.repository;
 
+import com.eleks.model.Post;
 import com.eleks.model.User;
+import com.eleks.validator.UserValidator;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -17,7 +20,9 @@ public class UserRepositoryImpl implements UserRepository {
 
 
    private UserRepositoryImpl(){
-        users.add(new User("Ivan", "1111"));
+        User user = new User("Ivan", "1111");
+        user.setPosts(Arrays.asList(new Post("asdasd"), new Post("dasasd")));
+        users.add(user);
         users.add(new User("Pavlo", "1111"));
         users.add(new User("Maks", "1111"));
         users.add(new User("Andriy", "1111"));
@@ -44,9 +49,12 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void addUser(User u) {
+    public boolean addUser(User u) {
+        for (User user:users) {
+            if(user.getUsername().equals(u.getUsername())) return false;
+        }
         users.add(u);
-        System.out.println("user " + u + " was add");
+        return true;
     }
 
     @Override
@@ -65,5 +73,11 @@ public class UserRepositoryImpl implements UserRepository {
         return  this.users;
     }
 
-
+    @Override
+    public void addPostToUser(Post p, User u) {
+        ArrayList <Post>list = new ArrayList<Post>();
+        list.addAll(u.getPosts());
+        list.add(p);
+        u.setPosts(list);
+    }
 }

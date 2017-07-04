@@ -12,6 +12,13 @@ import javax.inject.Qualifier;
  */
 public class UserValidator {
     private UserRepository userRepository = UserRepositoryImpl.getInstance();
+    private static UserValidator userValidator;
+
+    private UserValidator(){}
+    public static UserValidator getInstance(){
+        if(userValidator == null) userValidator = new UserValidator();
+        return userValidator;
+    }
 
     public boolean checkUser(String username, String password){
         boolean userIsInDatabase = false;
@@ -19,6 +26,14 @@ public class UserValidator {
        for(User u:userRepository.findAll()){
            if(u.getUsername().equals(username) && u.getPassword().equals(password)) userIsInDatabase = true;
        }
+        return userIsInDatabase;
+    }
+    public boolean userExistsByName(String username){
+        boolean userIsInDatabase = false;
+
+        for(User u:userRepository.findAll()){
+            if(u.getUsername().equals(username)) userIsInDatabase = true;
+        }
         return userIsInDatabase;
     }
 }

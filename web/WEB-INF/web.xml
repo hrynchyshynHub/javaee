@@ -26,4 +26,26 @@
         <url-pattern>/register</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>saveUser</servlet-name>
+        <servlet-class>com.eleks.controller.RegisterServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>saveUser</servlet-name>
+        <url-pattern>/saveUser</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>addPostToUser</servlet-name>
+        <servlet-class>com.eleks.controller.UserServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>addPostToUser</servlet-name>
+        <url-pattern>/addPostToUser</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
 </web-app>

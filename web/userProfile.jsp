@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,10 +27,60 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+        *{
+            padding: 0;
+            margin:0;
+        }
+        .wrapper{
+            background: #eee;
+            border: 1px solid #999;
+            width: 1150px;
+            height: 70px;
+        }
+        .wrapper textarea{
+            background: whitesmoke;
+            border:none;
+            width:100%;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            resize: none;
+        }
+        .wrapper textarea:focus{
+            outline: none;
+        }
+        .controls{
+            background: whitesmoke;
+            text-align: right;
+            margin-top: -6px;
+
+        }
+        .mybtn{
+            height: 50px;
+            font-weight: bold;
+            color: whitesmoke;
+            border-width: 1px 0 0 1px;
+            margin-top: 0;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
     <h1 class="center-block">Welcome user ${user.username}</h1>
+    <div class="wrapper">
+        <form action="addPostToUser" method="post">
+        <textarea  name = "postDescription" cols="20" rows="3"></textarea>
+            <input type="hidden" value="${user.username}" name="username">
+        <div class="controls">
+            <button class="btn btn-success mybtn">Post</button>
+        </div>
+        </form>
+    </div>
+    <br>
+     <h1>Posts</h1>
+    <c:forEach var = "post" items="${user.posts}">
+        <h2>${post.description}</h2><hr>
+    </c:forEach>
 </div>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
