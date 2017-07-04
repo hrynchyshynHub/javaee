@@ -10,7 +10,7 @@ public class User {
     private String username;
     private String password;
 
-    private List<Post> posts = new ArrayList<>();
+    private List<Post> posts = new ArrayList<Post>();
 
     public User() {
     }

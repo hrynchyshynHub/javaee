@@ -15,10 +15,10 @@ import java.io.IOException;
 /**
  * Created by ivan.hrynchyshyn on 04.07.2017.
  */
-@WebServlet(name = "UserServlet")
+@WebServlet(name = "UserServlet", urlPatterns = {"/addPostToUser"})
 public class UserServlet extends HttpServlet {
 
-    private UserRepository userRepository = UserRepositoryImpl.getInstance();
+    private UserRepositoryImpl userRepository = (UserRepositoryImpl)UserRepositoryImpl.getInstance();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String desc = request.getParameter("postDescription");
@@ -32,4 +32,6 @@ public class UserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
+
+
 }

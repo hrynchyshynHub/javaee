@@ -30,7 +30,7 @@
 <body>
 <div class="container">
 <h1 class="center-block">Welcome Page</h1>
-${error}
+${error.message}
     <form  action="login" method="post">
         <div class="form-group">
             <label for="usernameId">Username</label>

@@ -14,10 +14,12 @@ import java.io.IOException;
 /**
  * Created by ivan.hrynchyshyn on 04.07.2017.
  */
-@WebServlet(name = "RegisterServlet")
+@WebServlet(name = "RegisterServlet", urlPatterns = { "/saveUser" })
 public class RegisterServlet extends HttpServlet {
 
-    UserRepository userRepository = UserRepositoryImpl.getInstance();
+
+    private UserRepositoryImpl userRepository = UserRepositoryImpl.getInstance();
+
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
@@ -34,4 +36,5 @@ public class RegisterServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
+
 }

@@ -11,19 +11,25 @@ import javax.inject.Qualifier;
  * Created by ivan.hrynchyshyn on 03.07.2017.
  */
 public class UserValidator {
-    private UserRepository userRepository = UserRepositoryImpl.getInstance();
-    private static UserValidator userValidator;
 
-    private UserValidator(){}
+    private UserRepositoryImpl userRepository = UserRepositoryImpl.getInstance();
+    private static  UserValidator userValidator;
+
+    private  UserValidator(){}
+
     public static UserValidator getInstance(){
-        if(userValidator == null) userValidator = new UserValidator();
-        return userValidator;
+        if(userValidator == null){
+            synchronized (UserValidator.class){
+                if(userValidator == null) userValidator = new UserValidator();
+            }
+        }
+        return  userValidator;
     }
 
     public boolean checkUser(String username, String password){
         boolean userIsInDatabase = false;
 
-       for(User u:userRepository.findAll()){
+       for(User u: userRepository.findAll()){
            if(u.getUsername().equals(username) && u.getPassword().equals(password)) userIsInDatabase = true;
        }
         return userIsInDatabase;
@@ -35,5 +41,13 @@ public class UserValidator {
             if(u.getUsername().equals(username)) userIsInDatabase = true;
         }
         return userIsInDatabase;
+    }
+
+    public void setUserRepository(UserRepositoryImpl userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public UserRepositoryImpl getUserRepository() {
+        return userRepository;
     }
 }

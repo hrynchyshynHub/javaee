@@ -9,14 +9,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by ivan.hrynchyshyn on 03.07.2017.
  */
-@ApplicationScoped
+
 public class UserRepositoryImpl implements UserRepository {
-    private static UserRepositoryImpl userRepository;
-    private  List<User> users = new ArrayList<User>();
+    private  List<User> users = new CopyOnWriteArrayList<User>();
+    private static  UserRepositoryImpl userRepository;
+
 
 
    private UserRepositoryImpl(){
@@ -30,12 +32,16 @@ public class UserRepositoryImpl implements UserRepository {
         users.add(new User("default", "1111"));
     }
 
-    public static UserRepositoryImpl getInstance(){
-       if(userRepository == null) userRepository = new UserRepositoryImpl();
+    public static  UserRepositoryImpl getInstance(){
+       if(userRepository == null){
+           synchronized (UserRepository.class){
+               if(userRepository == null) userRepository = new UserRepositoryImpl();
+           }
+       }
        return userRepository;
     }
 
-    @Override
+
     public User findUserByName(String name) {
         User u = null;
         for (User user : users){
@@ -48,7 +54,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     }
 
-    @Override
+
     public boolean addUser(User u) {
         for (User user:users) {
             if(user.getUsername().equals(u.getUsername())) return false;
@@ -57,7 +63,7 @@ public class UserRepositoryImpl implements UserRepository {
         return true;
     }
 
-    @Override
+
     public void deleteUserByName(String usermame){
         Iterator<User> iter = users.iterator();
         while (iter.hasNext()){
@@ -68,12 +74,12 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
-    @Override
+
     public List<User> findAll() {
         return  this.users;
     }
 
-    @Override
+
     public void addPostToUser(Post p, User u) {
         ArrayList <Post>list = new ArrayList<Post>();
         list.addAll(u.getPosts());
