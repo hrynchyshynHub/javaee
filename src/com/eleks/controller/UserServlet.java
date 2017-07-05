@@ -23,14 +23,20 @@ public class UserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String desc = request.getParameter("postDescription");
         User user = (User)request.getSession(false).getAttribute("user");
-        System.out.println(user + "user servlet");
-        Post post = new Post(desc);
-        userRepository.addPostToUser(post,user);
-        request.getRequestDispatcher("userProfile.jsp").forward(request,response);
+        if(user == null) {
+            request.setAttribute("error", new Exception("Please authorize first"));
+            request.getRequestDispatcher("welcome.jsp").forward(request,response);
+
+        }else{
+            Post post = new Post(desc);
+            userRepository.addPostToUser(post,user);
+            request.getRequestDispatcher("userProfile.jsp").forward(request,response);
+        }
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doPost(request,response);
     }
 
 

@@ -26,11 +26,21 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
 </head>
 <body>
 <div class="container">
 <h1 class="center-block">Welcome Page</h1>
-${error.message}
+
+
+
+<% if(request.getAttribute("error") != null) {
+    out.print("<div class=\"alert alert-danger fade in\" > <a href = \"#\" class=\"close\" data - dismiss = \"alert\">&times;</a >" +
+    "<strong > Error ! </strong >" + request.getAttribute("error") + "</div>");
+}
+%>
+
+
     <form  action="login" method="post">
         <div class="form-group">
             <label for="usernameId">Username</label>
@@ -52,5 +62,12 @@ ${error.message}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".close").click(function(){
+            $(".alert").hide(500);
+        });
+    });
+</script>
 </body>
 </html>
