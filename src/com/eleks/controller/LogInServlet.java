@@ -29,11 +29,8 @@ public class LogInServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws  IOException, ServletException{
         String username = req.getParameter("username");
         String password = req.getParameter("password");
-//        WebApplicationContext springContext = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
-//        UserValidator userValidator =(UserValidator)springContext.getBean("userValidator");
         System.out.println(username+  password);
      if(userValidator.checkUser(username,password)) {
-        // UserRepository userRepository=(UserRepository) springContext.getBean("userRepository");
          User user = userRepository.findUserByName(username);
          HttpSession session = req.getSession();
          session.setAttribute("user", user);

@@ -23,15 +23,9 @@ public class UserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String desc = request.getParameter("postDescription");
         User user = (User)request.getSession(false).getAttribute("user");
-        if(user == null) {
-            request.setAttribute("error", new Exception("Please authorize first"));
-            request.getRequestDispatcher("welcome.jsp").forward(request,response);
-
-        }else{
-            Post post = new Post(desc);
-            userRepository.addPostToUser(post,user);
-            request.getRequestDispatcher("userProfile.jsp").forward(request,response);
-        }
+        Post post = new Post(desc);
+        userRepository.addPostToUser(post,user);
+        request.getRequestDispatcher("userProfile.jsp").forward(request,response);
 
     }
 
