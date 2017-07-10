@@ -20,7 +20,6 @@ public class UserRepositoryImpl implements UserRepository {
     private static  UserRepositoryImpl userRepository;
 
 
-
    private UserRepositoryImpl(){
         User user = new User("Ivan", "1111");
         user.setPosts(Arrays.asList(new Post("asdasd"), new Post("dasasd")));

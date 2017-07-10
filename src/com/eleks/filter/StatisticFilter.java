@@ -28,7 +28,7 @@ public class StatisticFilter implements Filter{
 
 
     public void init(FilterConfig filterConfig) throws ServletException {
-       // writeStatisticAnMinute();
+
     }
 
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -36,13 +36,13 @@ public class StatisticFilter implements Filter{
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String requestUrl = request.getRequestURI();
         urlCollector.addUrl(new UrlObject(requestUrl));
-        doStatistic(LocalDateTime.now());
         filterChain.doFilter(request,response);
     }
 
     public void destroy() {
-
+        doStatistic(LocalDateTime.now());
     }
+
     public void doStatistic(LocalDateTime localDateTime){
         logger.info("Statistic for:" + localDateTime.toString());
         for(String url:urlCollector.getUniqUrl()){
