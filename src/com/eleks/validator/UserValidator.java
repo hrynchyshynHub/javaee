@@ -2,6 +2,7 @@ package com.eleks.validator;
 
 import com.eleks.model.User;
 import com.eleks.repository.UserRepository;
+import com.eleks.repository.UserRepositoryForDBImpl;
 import com.eleks.repository.UserRepositoryImpl;
 
 import javax.inject.Inject;
@@ -12,7 +13,7 @@ import javax.inject.Qualifier;
  */
 public class UserValidator {
 
-    private UserRepositoryImpl userRepository = UserRepositoryImpl.getInstance();
+    private UserRepositoryForDBImpl userRepository = UserRepositoryForDBImpl.getInstance();
     private static  UserValidator userValidator;
 
     private  UserValidator(){}
@@ -28,7 +29,6 @@ public class UserValidator {
 
     public boolean checkUser(String username, String password){
         boolean userIsInDatabase = false;
-
        for(User u: userRepository.findAll()){
            if(u.getUsername().equals(username) && u.getPassword().equals(password)) userIsInDatabase = true;
        }
@@ -43,11 +43,4 @@ public class UserValidator {
         return userIsInDatabase;
     }
 
-    public void setUserRepository(UserRepositoryImpl userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    public UserRepositoryImpl getUserRepository() {
-        return userRepository;
-    }
 }

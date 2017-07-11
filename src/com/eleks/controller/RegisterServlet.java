@@ -2,6 +2,7 @@ package com.eleks.controller;
 
 import com.eleks.model.User;
 import com.eleks.repository.UserRepository;
+import com.eleks.repository.UserRepositoryForDBImpl;
 import com.eleks.repository.UserRepositoryImpl;
 
 import javax.servlet.ServletException;
@@ -18,7 +19,7 @@ import java.io.IOException;
 public class RegisterServlet extends HttpServlet {
 
 
-    private UserRepositoryImpl userRepository = UserRepositoryImpl.getInstance();
+    private UserRepositoryForDBImpl userRepository = UserRepositoryForDBImpl.getInstance();
 
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

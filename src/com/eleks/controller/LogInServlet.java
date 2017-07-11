@@ -30,16 +30,17 @@ public class LogInServlet extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         System.out.println(username+  password);
-//     if(userValidator.checkUser(username,password)) {
-         User user = userRepository.findUserByName(username);
+     if(userValidator.checkUser(username,password)) {
+         User user = userRepository.findUserWithPosts(username);
          HttpSession session = req.getSession();
          session.setAttribute("user", user);
          req.setAttribute("user", user);
+         //req.setAttribute("posts", userRepository.findUserPost(user.getId()));
          RequestDispatcher rd = req.getRequestDispatcher("userProfile.jsp");
          rd.forward(req, resp);
-//     }else{
-//         req.getRequestDispatcher("faillogin.jsp").forward(req,resp);
-//     }
+    }else{
+         req.getRequestDispatcher("faillogin.jsp").forward(req,resp);
+    }
     }
 
     @Override

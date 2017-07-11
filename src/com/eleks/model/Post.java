@@ -6,7 +6,7 @@ package com.eleks.model;
 public class Post {
     private int id;
     private String description;
-
+    private int userId;
 
     public Post() {
     }
@@ -28,6 +28,20 @@ public class Post {
     }
 
     public void setDescription(String description) {
+        this.description = description;
+    }
+
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public Post(int id, String description) {
+        this.id = id;
         this.description = description;
     }
 

@@ -17,8 +17,6 @@ import java.io.IOException;
             servletNames = "UserServlet")
 public class AuthorizationFiltter implements Filter{
 
-
-
     public void init(FilterConfig filterConfig) throws ServletException {
         System.out.println("I am created )");
     }
@@ -27,7 +25,6 @@ public class AuthorizationFiltter implements Filter{
         HttpServletRequest  request = (HttpServletRequest) servletRequest;
         HttpServletResponse response= (HttpServletResponse) servletResponse;
         String url = request.getRequestURI();
-
 
             Object o = request.getSession().getAttribute("user");
             if (null == o) {
