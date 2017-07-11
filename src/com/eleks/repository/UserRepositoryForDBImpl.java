@@ -13,7 +13,7 @@ public class UserRepositoryForDBImpl implements UserRepository{
     private static UserRepositoryForDBImpl userRepositoryForDB;
     private String dbUrl = "\"jdbc:postgresql://localhost:5432/learndb\"";
     private String dbClass = "org.postgresql.Driver";
-    private String username = "root";
+    private String username = "postgres";
     private String password = "root";
 
     private UserRepositoryForDBImpl(){}
@@ -28,13 +28,14 @@ public class UserRepositoryForDBImpl implements UserRepository{
     }
 
     @Override
-    public User findUserByName(String username) {
+    public User findUserByName(String username){
+
         User user = null;
-        try(Connection connection = DriverManager.getConnection(dbUrl,this.username,password);
-            Statement  statement = connection.createStatement()){
+        try{
             Class.forName("org.postgresql.Driver");
-            System.out.println("under claas.forname");
-            ResultSet rs = statement.executeQuery("select *  FROM public.\"User\" WHERE username  = \"" +username+ "\";");
+            Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost/learndb",this.username,this.password);
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("select *  FROM public.\"User\" ;");
 
             while (rs.next()){
                 int id = rs.getInt("id");
@@ -45,9 +46,7 @@ public class UserRepositoryForDBImpl implements UserRepository{
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-            System.out.println("Not Found Driver");
         } catch (SQLException e) {
-            System.out.println("Not Found Driver in Sql ");
             e.printStackTrace();
         }
         return user;
