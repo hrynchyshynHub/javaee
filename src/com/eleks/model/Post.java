@@ -10,17 +10,20 @@ public class Post {
 
     public Post() {
     }
+    public Post(String description) {
+        this.description = description;
+    }
 
+    public Post(int id, String description) {
+        this.id = id;
+        this.description = description;
+    }
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public Post(String description) {
-        this.description = description;
     }
 
     public String getDescription() {
@@ -31,18 +34,12 @@ public class Post {
         this.description = description;
     }
 
-
     public int getUserId() {
         return userId;
     }
 
     public void setUserId(int userId) {
         this.userId = userId;
-    }
-
-    public Post(int id, String description) {
-        this.id = id;
-        this.description = description;
     }
 
     @Override

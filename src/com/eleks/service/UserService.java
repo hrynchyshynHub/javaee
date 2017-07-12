@@ -3,8 +3,6 @@ package com.eleks.service;
 import com.eleks.model.Post;
 import com.eleks.model.User;
 import com.eleks.repository.UserRepository;
-import com.eleks.validator.UserValidator;
-
 import java.util.List;
 
 /**
@@ -36,13 +34,22 @@ public class UserService {
         return null;
     }
 
-    public User findUserWithPosts(String username){
+    public User findUserWithPosts(String username) throws Exception{
         User user = userRepository.findUserByName(username);
-        List<Post> posts = userRepository.fi
+        if(user!= null){
+            List<Post> posts = userRepository.findUserPosts(user.getId());
+            user.setPosts(posts);
+        }else throw new Exception("user not found");
+
+        return user;
     }
-    public void addPostToUser(User u, Post p){
-        userRepository.addPostToUser(p,u);
+
+    public void addPostToUser(User u, Post p) throws Exception {
+        if(p.getDescription().length()>0){
+            userRepository.addPostToUser(p,u);
+        }else throw new Exception("empty field");
     }
+
     public boolean userPresentInDataBase(String username, String password){
         boolean userAlredyExist = false;
         for(User u:findAll()){

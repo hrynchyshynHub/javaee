@@ -2,9 +2,6 @@ package com.eleks.repository;
 
 import com.eleks.model.Post;
 import com.eleks.model.User;
-import com.eleks.validator.UserValidator;
-
-import javax.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -88,6 +85,11 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User findUserWithPosts(String username) {
+        return null;
+    }
+
+    @Override
+    public List<Post> findUserPosts(int userId) {
         return null;
     }
 }

@@ -23,13 +23,10 @@ public class AuthorizationFiltter implements Filter{
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest  request = (HttpServletRequest) servletRequest;
         HttpServletResponse response= (HttpServletResponse) servletResponse;
-        String url = request.getRequestURI();
-
             Object o = request.getSession().getAttribute("user");
             if (null == o) {
                 request.setAttribute("error", new Exception("Please authorificate first!"));
                 request.getRequestDispatcher("welcome.jsp").forward(request,response);
-
             }else{
                 filterChain.doFilter(request, response);
             }

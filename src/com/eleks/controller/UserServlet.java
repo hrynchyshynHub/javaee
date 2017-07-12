@@ -25,15 +25,16 @@ public class UserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String desc = request.getParameter("postDescription");
         User user = (User)request.getSession(false).getAttribute("user");
-        if(user != null){
-            Post post = new Post(desc);
-            userService.addPostToUser(user,post);
-            user.getPosts().add(post);
+        Post post = new Post(desc);
+        try {
+                userService.addPostToUser(user,post);
+                user.getPosts().add(post);
+                request.getRequestDispatcher("userProfile.jsp").forward(request,response);
+            } catch (Exception e) {
+                request.setAttribute("error", e);
+                request.getRequestDispatcher("userProfile.jsp").forward(request,response);
+            }
         }
-        request.getRequestDispatcher("userProfile.jsp").forward(request,response);
-
-    }
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request,response);
     }

@@ -29,6 +29,7 @@
 </head>
 <body>
 <div class="container">
+    ${error}
     <h1 class="center-block">Registration</h1>
     <form class="form-horizontal" action="saveUser" method="post">
         <div class="form-group">

@@ -62,10 +62,16 @@
             border-width: 1px 0 0 1px;
             margin-top: 0;
         }
+        .post{
+            height: auto;
+            border: 1px solid #b2dba1;
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
 <div class="container">
+
     <h1 class="center-block">Welcome user ${user.username}</h1>
     <div class="wrapper">
         <form action="addPostToUser" method="post">
@@ -78,13 +84,28 @@
     </div>
     <br>
      <h1>Posts</h1>
+    <% if(request.getAttribute("error") != null) {
+        out.print("<div class=\"alert alert-danger fade in\" > <a href = \"#\" class=\"close\" data - dismiss = \"alert\">&times;</a >" +
+                "<strong > Error ! </strong >" + request.getAttribute("error") + "</div>");
+    }
+    %>
     <c:forEach var = "post" items="${user.posts}">
-        <h2>${post.description}</h2><hr>
+        <div class="post">
+        <h4>Post #${post.id}</h4>
+        <h2>${post.description}</h2>
+        </div>
     </c:forEach>
 </div>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".close").click(function(){
+            $(".alert").hide(500);
+        });
+    });
+</script>
 </body>
 </html>

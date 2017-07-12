@@ -1,13 +1,8 @@
 package com.eleks.controller;
 
 import com.eleks.model.User;
-import com.eleks.repository.UserRepository;
 import com.eleks.repository.UserRepositoryForDBImpl;
-import com.eleks.repository.UserRepositoryImpl;
 import com.eleks.service.UserService;
-import com.eleks.validator.UserValidator;
-
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,22 +25,26 @@ public class LogInServlet extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
      if(userService.userPresentInDataBase(username,password)) {
-         User user = userService.findUserWithPosts(username);
-         HttpSession session = req.getSession();
-         session.setAttribute("user", user);
-         req.setAttribute("user", user);
-         //req.setAttribute("posts", userRepository.findUserPost(user.getId()));
-         RequestDispatcher rd = req.getRequestDispatcher("userProfile.jsp");
-         rd.forward(req, resp);
+         try {
+             User user = userService.findUserWithPosts(username);
+             HttpSession session = req.getSession();
+             session.setAttribute("user", user);
+             req.setAttribute("user", user);
+             RequestDispatcher rd = req.getRequestDispatcher("userProfile.jsp");
+             rd.forward(req, resp);
+         } catch (Exception e) {
+             req.setAttribute("error", e);
+             RequestDispatcher rd = req.getRequestDispatcher("register.jsp");
+             rd.forward(req, resp);
+         }
     }else{
          req.getRequestDispatcher("faillogin.jsp").forward(req,resp);
-    }
+        }
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("register.jsp").forward(req,resp);
     }
-
 
 }
