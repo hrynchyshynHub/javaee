@@ -18,7 +18,6 @@ import java.io.IOException;
 public class AuthorizationFiltter implements Filter{
 
     public void init(FilterConfig filterConfig) throws ServletException {
-        System.out.println("I am created )");
     }
 
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -37,6 +36,5 @@ public class AuthorizationFiltter implements Filter{
     }
 
     public void destroy() {
-        System.out.println("I am destroying (");
     }
 }

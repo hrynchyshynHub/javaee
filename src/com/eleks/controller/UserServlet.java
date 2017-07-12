@@ -5,6 +5,7 @@ import com.eleks.model.User;
 import com.eleks.repository.UserRepository;
 import com.eleks.repository.UserRepositoryForDBImpl;
 import com.eleks.repository.UserRepositoryImpl;
+import com.eleks.service.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,14 +20,14 @@ import java.io.IOException;
 @WebServlet(name = "UserServlet", urlPatterns = {"/addPostToUser"})
 public class UserServlet extends HttpServlet {
 
-    private UserRepositoryForDBImpl userRepository = UserRepositoryForDBImpl.getInstance();
+    private UserService userService = new UserService(UserRepositoryForDBImpl.getInstance());
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String desc = request.getParameter("postDescription");
         User user = (User)request.getSession(false).getAttribute("user");
         if(user != null){
             Post post = new Post(desc);
-            userRepository.addPostToUser(post,user);
+            userService.addPostToUser(user,post);
             user.getPosts().add(post);
         }
         request.getRequestDispatcher("userProfile.jsp").forward(request,response);

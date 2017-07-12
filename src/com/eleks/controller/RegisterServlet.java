@@ -4,6 +4,7 @@ import com.eleks.model.User;
 import com.eleks.repository.UserRepository;
 import com.eleks.repository.UserRepositoryForDBImpl;
 import com.eleks.repository.UserRepositoryImpl;
+import com.eleks.service.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,14 +20,14 @@ import java.io.IOException;
 public class RegisterServlet extends HttpServlet {
 
 
-    private UserRepositoryForDBImpl userRepository = UserRepositoryForDBImpl.getInstance();
+    private UserService userService = new UserService(UserRepositoryForDBImpl.getInstance());
 
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         User user = new User(username,password);
-        if(userRepository.addUser(user)){
+        if(userService.saveUser(user)){
             request.getRequestDispatcher("welcome.jsp").forward(request,response);
         }else{
             request.setAttribute("error", new Exception("User Alredy Exist, please use another nickname"));

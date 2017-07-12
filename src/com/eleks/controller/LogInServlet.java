@@ -4,6 +4,7 @@ import com.eleks.model.User;
 import com.eleks.repository.UserRepository;
 import com.eleks.repository.UserRepositoryForDBImpl;
 import com.eleks.repository.UserRepositoryImpl;
+import com.eleks.service.UserService;
 import com.eleks.validator.UserValidator;
 
 
@@ -22,16 +23,14 @@ import java.io.IOException;
 @WebServlet(name = "LogInServlet" , urlPatterns = {"/register","/login"})
 public class LogInServlet extends HttpServlet {
 
-    private UserValidator userValidator = UserValidator.getInstance();
-    private UserRepositoryForDBImpl userRepository = UserRepositoryForDBImpl.getInstance();
+    private UserService userService = new UserService(UserRepositoryForDBImpl.getInstance());
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws  IOException, ServletException{
         String username = req.getParameter("username");
         String password = req.getParameter("password");
-        System.out.println(username+  password);
-     if(userValidator.checkUser(username,password)) {
-         User user = userRepository.findUserWithPosts(username);
+     if(userService.userPresentInDataBase(username,password)) {
+         User user = userService.findUserWithPosts(username);
          HttpSession session = req.getSession();
          session.setAttribute("user", user);
          req.setAttribute("user", user);
