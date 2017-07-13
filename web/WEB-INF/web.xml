@@ -16,4 +16,17 @@
     <!--<session-config>-->
         <!--<session-timeout>30</session-timeout>-->
     <!--</session-config>-->
+    <resource-ref>
+        DB Connection
+        <res-ref-name>jdbc/appname</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
+    <Resource name="jdbc/appname" auth="Container"
+              type="javax.sql.DataSource" maxActive="100"
+              maxIdle="30" maxWait="10000"
+              username="postgres"
+              password="root"
+              driverClassName="org.postgresql.Driver"
+              url="jdbc:postgresql://localhost/learndb"/>
 </web-app>

@@ -2,17 +2,17 @@ package com.eleks.repository;
 
 import com.eleks.model.Post;
 import com.eleks.model.User;
-import org.apache.deltaspike.core.api.config.ConfigProperty;
 import org.apache.deltaspike.core.api.resourceloader.InjectableResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * Created by ivan.hrynchyshyn on 10.07.2017.
@@ -22,8 +22,6 @@ public class UserRepositoryForDBImpl implements UserRepository{
 
     private static final Logger logger = LoggerFactory.getLogger(UserRepositoryForDBImpl.class);
 
-    @InjectableResource(location = "database.properties")
-    private static Properties properties;
 
     private static String selectUserByNameQuery = "SELECT *  FROM PUBLIC.\"User\" WHERE USERNAME = ?";
     private static String insertUserQuery = "INSERT INTO PUBLIC.\"User\"(USERNAME, PASSWORD) VALUES (?,?)";
@@ -40,15 +38,26 @@ public class UserRepositoryForDBImpl implements UserRepository{
 
     private static UserRepositoryForDBImpl userRepositoryForDB;
 
+    private Properties properties = new Properties();
+
     private UserRepositoryForDBImpl(){
+            dbClass =  properties.getProperties().get("database.class");
+            dbUrl    = properties.getProperties().get("database.url");
+            username = properties.getProperties().get("database.username");
+            password = properties.getProperties().get("database.password");
+            System.out.println(dbClass + " " + dbUrl + " " + username+ " " + password);
+        InitialContext initContext= null;
         try {
-            Class.forName(properties.getProperty("database.class"));
-            dbUrl    = properties.getProperty("database.url");
-            username = properties.getProperty("database.username");
-            password = properties.getProperty("database.password");
-        } catch (ClassNotFoundException e) {
-            logger.info("class not found " + e);
-         }
+            initContext = new InitialContext();
+            DataSource ds = (DataSource) initContext.lookup("java:comp/env/jdbc/dbconnect");
+            Connection conn = ds.getConnection();
+            System.out.println(conn.toString());
+        } catch (NamingException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public static UserRepositoryForDBImpl getInstance(){
@@ -60,13 +69,6 @@ public class UserRepositoryForDBImpl implements UserRepository{
         return userRepositoryForDB;
     }
 
-    public Properties getProperties() {
-        return properties;
-    }
-
-    public void setProperties(Properties properties) {
-        this.properties = properties;
-    }
 
     @Override
     public User findUserByName(String username) throws Exception {
@@ -83,6 +85,7 @@ public class UserRepositoryForDBImpl implements UserRepository{
                 user = new User(dbusername, dbpassword);
                 user.setId(id);
             }
+            rs.close();
         }catch (Exception e){
             logger.info("Problem with connection  "  + e );
         }
@@ -101,7 +104,9 @@ public class UserRepositoryForDBImpl implements UserRepository{
                 return true;
             } catch (SQLException e) {
                 logger.info("Error ocured where user was add to database" + e);
-            }
+            } catch (Exception e) {
+            logger.info("no connection" + e);
+        }
         return false;
         }
 
@@ -115,8 +120,11 @@ public class UserRepositoryForDBImpl implements UserRepository{
                 String password = resultSet.getString("password");
                 users.add(new User(username,password));
             }
+            resultSet.close();
         }catch (SQLException e){
             logger.info("Problem occured by database connection " + e);
+        } catch (Exception e) {
+            logger.info("no connection" + e);
         }
         return users;
     }
@@ -129,6 +137,8 @@ public class UserRepositoryForDBImpl implements UserRepository{
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             logger.info("Error during connected to database " + e );
+        } catch (Exception e) {
+            logger.info("no connection" + e);
         }
     }
 
@@ -145,8 +155,12 @@ public class UserRepositoryForDBImpl implements UserRepository{
                 String description = resultSet.getString("description");
                 posts.add(new Post(id,description));
             }
+            resultSet.close();
         }catch (SQLException e){
             logger.info("Error during connected to database " + e );
+        }
+        catch (Exception e) {
+            logger.info("no connection" + e);
         }
         return posts;
     }
@@ -166,7 +180,7 @@ public class UserRepositoryForDBImpl implements UserRepository{
                 Post post = new Post(rs.getString("description"));
                 posts.add(post);
             }
-
+            rs.close();
             user.setUsername(dbusername);
             user.setPassword(dbpassword);
             user.setId(dbuserid);
@@ -178,16 +192,16 @@ public class UserRepositoryForDBImpl implements UserRepository{
         return user;
     }
 
-    private Connection getDbConection(){
+    private Connection getDbConection() throws Exception{
         Connection connection = null;
         try {
-
              connection = DriverManager.getConnection(dbUrl,this.username,this.password);
-             return connection;
         } catch (SQLException e){
             logger.info("Error during connected to database " + e );
         }
-        return connection;
+        if(connection != null) {
+            return connection;
+        }else throw new Exception();
     }
 
 

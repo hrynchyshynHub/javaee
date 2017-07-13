@@ -8,12 +8,7 @@
           <element id="module-output" name="JavaEEExample" />
         </element>
         <element id="library" level="project" name="Maven: javax.servlet:jstl:1.2" />
-        <element id="library" level="project" name="Maven: org.springframework:spring-aop:4.3.9.RELEASE" />
-        <element id="library" level="project" name="Maven: org.springframework:spring-beans:4.3.9.RELEASE" />
-        <element id="library" level="project" name="Maven: org.springframework:spring-context:4.3.9.RELEASE" />
-        <element id="library" level="project" name="Maven: org.springframework:spring-core:4.3.9.RELEASE" />
-        <element id="library" level="project" name="Maven: org.springframework:spring-expression:4.3.9.RELEASE" />
-        <element id="library" level="project" name="Maven: org.springframework:spring-web:4.3.9.RELEASE" />
+        <element id="library" level="project" name="postgresql-42.1.1" />
       </element>
     </root>
   </artifact>

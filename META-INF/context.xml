@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Resource name="jdbc/appname" auth="Container"
+          type="javax.sql.DataSource" maxActive="100"
+          maxIdle="30" maxWait="10000"
+          username="postgres"
+          password="root"
+          driverClassName="org.postgresql.Driver"
+          url="jdbc:postgresql://localhost/learndb"/>
